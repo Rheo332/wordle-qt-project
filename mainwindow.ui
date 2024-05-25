@@ -28,7 +28,11 @@ QTextEdit {
 	border-radius: 4px;
 	background-color: #404040;
 	padding-top: 4px;
-	padding-left: 12px;
+	padding-left: 10px;
+}
+
+QTextEdit:disabled {
+	background-color: #303030;
 }
 </string>
   </property>
@@ -46,7 +50,7 @@ QTextEdit {
      <string>Enter</string>
     </property>
    </widget>
-   <widget class="QTextEdit" name="textEdit_1_1">
+   <widget class="CustomTextEdit" name="textEdit_1_1">
     <property name="geometry">
      <rect>
       <x>280</x>
@@ -59,7 +63,7 @@ QTextEdit {
      <number>1</number>
     </property>
    </widget>
-   <widget class="QTextEdit" name="textEdit_1_2">
+   <widget class="CustomTextEdit" name="textEdit_1_2">
     <property name="geometry">
      <rect>
       <x>350</x>
@@ -69,7 +73,7 @@ QTextEdit {
      </rect>
     </property>
    </widget>
-   <widget class="QTextEdit" name="textEdit_1_3">
+   <widget class="CustomTextEdit" name="textEdit_1_3">
     <property name="geometry">
      <rect>
       <x>420</x>
@@ -79,7 +83,7 @@ QTextEdit {
      </rect>
     </property>
    </widget>
-   <widget class="QTextEdit" name="textEdit_1_4">
+   <widget class="CustomTextEdit" name="textEdit_1_4">
     <property name="geometry">
      <rect>
       <x>490</x>
@@ -89,7 +93,7 @@ QTextEdit {
      </rect>
     </property>
    </widget>
-   <widget class="QTextEdit" name="textEdit_1_5">
+   <widget class="CustomTextEdit" name="textEdit_1_5">
     <property name="geometry">
      <rect>
       <x>560</x>
@@ -99,7 +103,7 @@ QTextEdit {
      </rect>
     </property>
    </widget>
-   <widget class="QTextEdit" name="textEdit_2_1">
+   <widget class="CustomTextEdit" name="textEdit_2_1">
     <property name="geometry">
      <rect>
       <x>280</x>
@@ -109,7 +113,7 @@ QTextEdit {
      </rect>
     </property>
    </widget>
-   <widget class="QTextEdit" name="textEdit_2_2">
+   <widget class="CustomTextEdit" name="textEdit_2_2">
     <property name="geometry">
      <rect>
       <x>350</x>
@@ -119,7 +123,7 @@ QTextEdit {
      </rect>
     </property>
    </widget>
-   <widget class="QTextEdit" name="textEdit_2_3">
+   <widget class="CustomTextEdit" name="textEdit_2_3">
     <property name="geometry">
      <rect>
       <x>420</x>
@@ -129,7 +133,7 @@ QTextEdit {
      </rect>
     </property>
    </widget>
-   <widget class="QTextEdit" name="textEdit_2_4">
+   <widget class="CustomTextEdit" name="textEdit_2_4">
     <property name="geometry">
      <rect>
       <x>490</x>
@@ -139,7 +143,7 @@ QTextEdit {
      </rect>
     </property>
    </widget>
-   <widget class="QTextEdit" name="textEdit_2_5">
+   <widget class="CustomTextEdit" name="textEdit_2_5">
     <property name="geometry">
      <rect>
       <x>560</x>
@@ -149,7 +153,7 @@ QTextEdit {
      </rect>
     </property>
    </widget>
-   <widget class="QTextEdit" name="textEdit_3_1">
+   <widget class="CustomTextEdit" name="textEdit_3_1">
     <property name="geometry">
      <rect>
       <x>280</x>
@@ -159,7 +163,7 @@ QTextEdit {
      </rect>
     </property>
    </widget>
-   <widget class="QTextEdit" name="textEdit_3_2">
+   <widget class="CustomTextEdit" name="textEdit_3_2">
     <property name="geometry">
      <rect>
       <x>350</x>
@@ -169,7 +173,7 @@ QTextEdit {
      </rect>
     </property>
    </widget>
-   <widget class="QTextEdit" name="textEdit_3_3">
+   <widget class="CustomTextEdit" name="textEdit_3_3">
     <property name="geometry">
      <rect>
       <x>420</x>
@@ -179,7 +183,7 @@ QTextEdit {
      </rect>
     </property>
    </widget>
-   <widget class="QTextEdit" name="textEdit_3_4">
+   <widget class="CustomTextEdit" name="textEdit_3_4">
     <property name="geometry">
      <rect>
       <x>490</x>
@@ -189,7 +193,7 @@ QTextEdit {
      </rect>
     </property>
    </widget>
-   <widget class="QTextEdit" name="textEdit_3_5">
+   <widget class="CustomTextEdit" name="textEdit_3_5">
     <property name="geometry">
      <rect>
       <x>560</x>
@@ -199,7 +203,7 @@ QTextEdit {
      </rect>
     </property>
    </widget>
-   <widget class="QTextEdit" name="textEdit_4_1">
+   <widget class="CustomTextEdit" name="textEdit_4_1">
     <property name="geometry">
      <rect>
       <x>280</x>
@@ -209,7 +213,7 @@ QTextEdit {
      </rect>
     </property>
    </widget>
-   <widget class="QTextEdit" name="textEdit_4_2">
+   <widget class="CustomTextEdit" name="textEdit_4_2">
     <property name="geometry">
      <rect>
       <x>350</x>
@@ -219,7 +223,7 @@ QTextEdit {
      </rect>
     </property>
    </widget>
-   <widget class="QTextEdit" name="textEdit_4_3">
+   <widget class="CustomTextEdit" name="textEdit_4_3">
     <property name="geometry">
      <rect>
       <x>420</x>
@@ -229,7 +233,7 @@ QTextEdit {
      </rect>
     </property>
    </widget>
-   <widget class="QTextEdit" name="textEdit_4_4">
+   <widget class="CustomTextEdit" name="textEdit_4_4">
     <property name="geometry">
      <rect>
       <x>490</x>
@@ -239,7 +243,7 @@ QTextEdit {
      </rect>
     </property>
    </widget>
-   <widget class="QTextEdit" name="textEdit_4_5">
+   <widget class="CustomTextEdit" name="textEdit_4_5">
     <property name="geometry">
      <rect>
       <x>560</x>
@@ -249,7 +253,7 @@ QTextEdit {
      </rect>
     </property>
    </widget>
-   <widget class="QTextEdit" name="textEdit_5_1">
+   <widget class="CustomTextEdit" name="textEdit_5_1">
     <property name="geometry">
      <rect>
       <x>280</x>
@@ -259,7 +263,7 @@ QTextEdit {
      </rect>
     </property>
    </widget>
-   <widget class="QTextEdit" name="textEdit_5_2">
+   <widget class="CustomTextEdit" name="textEdit_5_2">
     <property name="geometry">
      <rect>
       <x>350</x>
@@ -269,7 +273,7 @@ QTextEdit {
      </rect>
     </property>
    </widget>
-   <widget class="QTextEdit" name="textEdit_5_3">
+   <widget class="CustomTextEdit" name="textEdit_5_3">
     <property name="geometry">
      <rect>
       <x>420</x>
@@ -279,7 +283,7 @@ QTextEdit {
      </rect>
     </property>
    </widget>
-   <widget class="QTextEdit" name="textEdit_5_4">
+   <widget class="CustomTextEdit" name="textEdit_5_4">
     <property name="geometry">
      <rect>
       <x>490</x>
@@ -289,7 +293,7 @@ QTextEdit {
      </rect>
     </property>
    </widget>
-   <widget class="QTextEdit" name="textEdit_5_5">
+   <widget class="CustomTextEdit" name="textEdit_5_5">
     <property name="geometry">
      <rect>
       <x>560</x>
@@ -299,7 +303,7 @@ QTextEdit {
      </rect>
     </property>
    </widget>
-   <widget class="QTextEdit" name="textEdit_6_1">
+   <widget class="CustomTextEdit" name="textEdit_6_1">
     <property name="geometry">
      <rect>
       <x>280</x>
@@ -309,7 +313,7 @@ QTextEdit {
      </rect>
     </property>
    </widget>
-   <widget class="QTextEdit" name="textEdit_6_2">
+   <widget class="CustomTextEdit" name="textEdit_6_2">
     <property name="geometry">
      <rect>
       <x>350</x>
@@ -319,7 +323,7 @@ QTextEdit {
      </rect>
     </property>
    </widget>
-   <widget class="QTextEdit" name="textEdit_6_3">
+   <widget class="CustomTextEdit" name="textEdit_6_3">
     <property name="geometry">
      <rect>
       <x>420</x>
@@ -329,7 +333,7 @@ QTextEdit {
      </rect>
     </property>
    </widget>
-   <widget class="QTextEdit" name="textEdit_6_4">
+   <widget class="CustomTextEdit" name="textEdit_6_4">
     <property name="geometry">
      <rect>
       <x>490</x>
@@ -339,7 +343,7 @@ QTextEdit {
      </rect>
     </property>
    </widget>
-   <widget class="QTextEdit" name="textEdit_6_5">
+   <widget class="CustomTextEdit" name="textEdit_6_5">
     <property name="geometry">
      <rect>
       <x>560</x>
@@ -362,6 +366,13 @@ QTextEdit {
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>CustomTextEdit</class>
+   <extends>QTextEdit</extends>
+   <header>customtextedit.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
