@@ -31,6 +31,10 @@ QTextEdit {
 	padding-left: 10px;
 }
 
+QTextEdit:focus { 
+	background-color: #505050;
+}
+
 QTextEdit:disabled {
 	background-color: #303030;
 }

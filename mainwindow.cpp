@@ -5,11 +5,12 @@
 #include <list>
 
 #define rowString(x) QString::fromStdString("_" + std::to_string(x) + "_")
+#define rowColTextEdit(r, c) textEdit_r_c
 
 std::list<QTextEdit *> textRow;
 int activeRow = 1;
 
-void input(QTextEdit *textEdit);
+QString input(QTextEdit *textEdit);
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -39,13 +40,22 @@ MainWindow::~MainWindow()
 void MainWindow::handleTextChanged()
 {
     if (QTextEdit *textEdit = qobject_cast<QTextEdit *>(sender())) {
-        input(textEdit);
+        QString content = input(textEdit);
         auto te = std::find(textRow.begin(), textRow.end(), textEdit);
         if (te != textRow.end()) {
             auto dist = std::distance(textRow.begin(), te);
-            if (dist < 4) {
+            if (dist < 4 && content != "Del") {
                 // qDebug() << dist;
-                //ui->textEdit_1_1->setFocus();
+
+                auto i = textRow.begin();
+                std::advance(i, dist + 1);
+                auto nextTe = *i;
+                nextTe->setFocus();
+            } else if (dist > 0 && content == "Del") {
+                auto i = textRow.begin();
+                std::advance(i, dist - 1);
+                auto nextTe = *i;
+                nextTe->setFocus();
             }
         }
     }
@@ -53,37 +63,44 @@ void MainWindow::handleTextChanged()
 
 void MainWindow::on_pushButton_clicked() {}
 
-void input(QTextEdit *textEdit)
+QString input(QTextEdit *textEdit)
 {
     QString content = textEdit->toPlainText();
 
     if (content.size() == 0) {
-        return;
+        return "Del";
     }
 
     if (content.size() == 1 && !content.at(0).isLetter()) {
         textEdit->setPlainText("");
-        return;
+        return "";
     }
 
     if (content.size() > 1 && !content.at(1).isLetter()) {
-        textEdit->setPlainText(content.at(0));
+        content = content.at(0);
+        textEdit->setPlainText(content);
 
         QTextCursor cursor = textEdit->textCursor();
         cursor.movePosition(QTextCursor::End);
         textEdit->setTextCursor(cursor);
-        return;
+        return content;
     }
 
     if (content.size() > 1) {
-        textEdit->setPlainText(content.at(content.size() - 1).toUpper());
+        content = content.at(content.size() - 1).toUpper();
+        textEdit->setPlainText(content);
         QTextCursor cursor = textEdit->textCursor();
         cursor.movePosition(QTextCursor::End);
         textEdit->setTextCursor(cursor);
+        return content;
     } else if (content.at(0).isLower()) {
-        textEdit->setPlainText(content.toUpper());
+        content = content.toUpper();
+        textEdit->setPlainText(content);
         QTextCursor cursor = textEdit->textCursor();
         cursor.movePosition(QTextCursor::End);
         textEdit->setTextCursor(cursor);
+        return content;
     }
+
+    return "Del";
 }
