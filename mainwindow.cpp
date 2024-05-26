@@ -2,15 +2,10 @@
 #include "ui_mainwindow.h"
 
 #include <QDebug>
-#include <list>
 
-#define rowString(x) QString::fromStdString("_" + std::to_string(x) + "_")
-#define rowColTextEdit(r, c) textEdit_r_c
-
-std::list<QTextEdit *> textRow;
+CustomTextEdit *activeTextEdits[5];
 int activeRow = 1;
-
-QString input(QTextEdit *textEdit);
+int focusedTextEdit = 0;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -19,17 +14,18 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     foreach (QObject *child, ui->centralwidget->children()) {
-        if (QTextEdit *textEdit = qobject_cast<QTextEdit *>(child)) {
-            connect(textEdit, &QTextEdit::textChanged, this, &MainWindow::handleTextChanged);
-            if (textEdit->objectName().contains(rowString(activeRow))) {
-                textRow.push_back(textEdit);
+        if (CustomTextEdit *textEdit = qobject_cast<CustomTextEdit *>(child)) {
+            connect(textEdit, &CustomTextEdit::keyPress, this, &MainWindow::onKeyPress);
+            if (textEdit->objectName().contains(
+                    QString::fromStdString("_" + std::to_string(activeRow) + "_"))) {
+                activeTextEdits[textEdit->objectName().last(1).toInt() - 1] = textEdit;
             } else {
                 textEdit->setEnabled(false);
             }
-
-            // qDebug() << "Connected " << textEdit->objectName() << " to \"handleTextChanged()\"";
         }
     }
+
+    ui->textEdit_1_1->setFocus();
 }
 
 MainWindow::~MainWindow()
@@ -37,70 +33,65 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::handleTextChanged()
-{
-    if (QTextEdit *textEdit = qobject_cast<QTextEdit *>(sender())) {
-        QString content = input(textEdit);
-        auto te = std::find(textRow.begin(), textRow.end(), textEdit);
-        if (te != textRow.end()) {
-            auto dist = std::distance(textRow.begin(), te);
-            if (dist < 4 && content != "Del") {
-                // qDebug() << dist;
-
-                auto i = textRow.begin();
-                std::advance(i, dist + 1);
-                auto nextTe = *i;
-                nextTe->setFocus();
-            } else if (dist > 0 && content == "Del") {
-                auto i = textRow.begin();
-                std::advance(i, dist - 1);
-                auto nextTe = *i;
-                nextTe->setFocus();
-            }
-        }
-    }
-}
-
 void MainWindow::on_pushButton_clicked() {}
 
-QString input(QTextEdit *textEdit)
+void MainWindow::onKeyPress(QKeyEvent *event)
 {
-    QString content = textEdit->toPlainText();
+    QChar c = (char) event->key();
+    switch (event->key()) {
+    case Qt::Key_Backspace:
+        qDebug() << "Backspace";
+        activeTextEdits[focusedTextEdit]->setPlainText("");
+        if (focusedTextEdit > 0) {
+            focusedTextEdit--;
+            activeTextEdits[focusedTextEdit]->setFocus();
+        }
+        return;
+    case Qt::Key_Return:
+        qDebug() << "Enter";
 
-    if (content.size() == 0) {
-        return "Del";
+        // TODO
+
+        return;
+    case Qt::Key_Left:
+        qDebug() << "Left";
+        if (focusedTextEdit > 0) {
+            focusedTextEdit--;
+            activeTextEdits[focusedTextEdit]->setFocus();
+        }
+        return;
+    case Qt::Key_Up:
+        qDebug() << "Up";
+        if (focusedTextEdit > 0) {
+            focusedTextEdit--;
+            activeTextEdits[focusedTextEdit]->setFocus();
+        }
+        return;
+    case Qt::Key_Right:
+        qDebug() << "Right";
+        if (focusedTextEdit < 4) {
+            focusedTextEdit++;
+            activeTextEdits[focusedTextEdit]->setFocus();
+        }
+        return;
+    case Qt::Key_Down:
+        qDebug() << "Down";
+        if (focusedTextEdit < 4) {
+            focusedTextEdit++;
+            activeTextEdits[focusedTextEdit]->setFocus();
+        }
+        return;
+    default:
+        if (!c.isLetter()) {
+            // ignore all other keys except letters
+            return;
+        }
+        break;
     }
-
-    if (content.size() == 1 && !content.at(0).isLetter()) {
-        textEdit->setPlainText("");
-        return "";
+    c = c.toUpper();
+    activeTextEdits[focusedTextEdit]->setPlainText(c);
+    if (focusedTextEdit < 4) {
+        focusedTextEdit++;
+        activeTextEdits[focusedTextEdit]->setFocus();
     }
-
-    if (content.size() > 1 && !content.at(1).isLetter()) {
-        content = content.at(0);
-        textEdit->setPlainText(content);
-
-        QTextCursor cursor = textEdit->textCursor();
-        cursor.movePosition(QTextCursor::End);
-        textEdit->setTextCursor(cursor);
-        return content;
-    }
-
-    if (content.size() > 1) {
-        content = content.at(content.size() - 1).toUpper();
-        textEdit->setPlainText(content);
-        QTextCursor cursor = textEdit->textCursor();
-        cursor.movePosition(QTextCursor::End);
-        textEdit->setTextCursor(cursor);
-        return content;
-    } else if (content.at(0).isLower()) {
-        content = content.toUpper();
-        textEdit->setPlainText(content);
-        QTextCursor cursor = textEdit->textCursor();
-        cursor.movePosition(QTextCursor::End);
-        textEdit->setTextCursor(cursor);
-        return content;
-    }
-
-    return "Del";
 }

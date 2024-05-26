@@ -1,7 +1,9 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QKeyEvent>
 #include <QMainWindow>
+#include <customtextedit.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -17,11 +19,9 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-public slots:
-    void handleTextChanged();
-
 private slots:
     void on_pushButton_clicked();
+    void onKeyPress(QKeyEvent *event);
 
 private:
     Ui::MainWindow *ui;
