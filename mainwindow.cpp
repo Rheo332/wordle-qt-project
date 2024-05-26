@@ -46,52 +46,50 @@ void MainWindow::onKeyPress(QKeyEvent *event)
             focusedTextEdit--;
             activeTextEdits[focusedTextEdit]->setFocus();
         }
-        return;
+        break;
     case Qt::Key_Return:
         qDebug() << "Enter";
 
         // TODO
 
-        return;
+        break;
     case Qt::Key_Left:
         qDebug() << "Left";
         if (focusedTextEdit > 0) {
             focusedTextEdit--;
             activeTextEdits[focusedTextEdit]->setFocus();
         }
-        return;
+        break;
     case Qt::Key_Up:
         qDebug() << "Up";
         if (focusedTextEdit > 0) {
             focusedTextEdit--;
             activeTextEdits[focusedTextEdit]->setFocus();
         }
-        return;
+        break;
     case Qt::Key_Right:
         qDebug() << "Right";
         if (focusedTextEdit < 4) {
             focusedTextEdit++;
             activeTextEdits[focusedTextEdit]->setFocus();
         }
-        return;
+        break;
     case Qt::Key_Down:
         qDebug() << "Down";
         if (focusedTextEdit < 4) {
             focusedTextEdit++;
             activeTextEdits[focusedTextEdit]->setFocus();
         }
-        return;
+        break;
     default:
-        if (!c.isLetter()) {
-            // ignore all other keys except letters
-            return;
+        if (c.isLetter()) {
+            c = c.toUpper();
+            activeTextEdits[focusedTextEdit]->setPlainText(c);
+            if (focusedTextEdit < 4) {
+                focusedTextEdit++;
+            }
+            activeTextEdits[focusedTextEdit]->setFocus();
         }
         break;
-    }
-    c = c.toUpper();
-    activeTextEdits[focusedTextEdit]->setPlainText(c);
-    if (focusedTextEdit < 4) {
-        focusedTextEdit++;
-        activeTextEdits[focusedTextEdit]->setFocus();
     }
 }
