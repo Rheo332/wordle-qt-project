@@ -24,7 +24,7 @@ void WordleLogic::initialSetup(QList<QObject *> children)
 void WordleLogic::setActiveRow(int row)
 {
     if (row > 5) {
-        qDebug() << "trying to set active row to" << row;
+        // qDebug() << "trying to set active row to" << row;
         return;
     }
 
