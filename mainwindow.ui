@@ -41,7 +41,7 @@ QTextEdit:disabled {
 </string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="submitButton">
     <property name="geometry">
      <rect>
       <x>390</x>

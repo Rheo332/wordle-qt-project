@@ -16,8 +16,5 @@ void CustomTextEdit::paintEvent(QPaintEvent *event)
 
 void CustomTextEdit::keyPressEvent(QKeyEvent *event)
 {
-    emit keyPress(event);
-
-    // override the default behavior by not calling the base event
-    // QTextEdit::keyPressEvent(event);
+    emit keyPressSignal(event);
 }

@@ -10,15 +10,22 @@ CONFIG += c++17
 
 SOURCES += \
     customtextedit.cpp \
+    filelogic.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    wordlelogic.cpp
 
 HEADERS += \
     customtextedit.h \
-    mainwindow.h
+    filelogic.h \
+    mainwindow.h \
+    wordlelogic.h
 
 FORMS += \
     mainwindow.ui
+
+RESOURCES += \
+    resources.qrc
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

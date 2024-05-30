@@ -16,7 +16,7 @@ protected:
     void keyPressEvent(QKeyEvent *event) override;
 
 Q_SIGNALS:
-    void keyPress(QKeyEvent *event);
+    void keyPressSignal(QKeyEvent *event);
 };
 
 #endif // CUSTOMTEXTEDIT_H

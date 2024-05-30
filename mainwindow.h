@@ -20,7 +20,7 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_pushButton_clicked();
+    void onSubmitClicked();
     void onKeyPress(QKeyEvent *event);
 
 private:
