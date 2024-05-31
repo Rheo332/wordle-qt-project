@@ -12,13 +12,12 @@ QList<QString> FileLogic::readTextFile(const QString &filePath)
 
     QList<QString> outList;
     QTextStream input(&file);
-    for (int i = 1; !input.atEnd(); ++i) {
+    while (!input.atEnd()) {
         QString line = input.readLine();
         outList << line;
-        //qDebug() << i << "|" << line;
     }
 
     file.close();
 
-    return {};
+    return outList;
 }

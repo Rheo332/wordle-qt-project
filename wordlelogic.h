@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QFile>
 #include <QList>
+#include <QRandomGenerator>
 #include <QTextStream>
 #include <customtextedit.h>
 #include <filelogic.h>
@@ -21,9 +22,11 @@ public:
 private:
     QList<QString> validSolutions;
     QList<QString> validWords;
+    QString solution;
     int activeRow = 0;
     int focusedTextEdit = 0;
     void setActiveRow(int row);
+    QString getRandomSolution();
 };
 
 #endif // WORDLELOGIC_H

@@ -19,13 +19,14 @@ void WordleLogic::initialSetup(QList<QObject *> children)
     FileLogic fLogic;
     validSolutions = fLogic.readTextFile("://valid-solutions.txt");
     validWords = fLogic.readTextFile("://valid-words.txt");
+
+    solution = getRandomSolution();
 }
 
 void WordleLogic::setActiveRow(int row)
 {
     if (row > 5) {
-        // qDebug() << "trying to set active row to" << row;
-        return;
+        throw std::range_error("Trying to set active row > 5");
     }
 
     activeRow = row;
@@ -44,6 +45,13 @@ void WordleLogic::setActiveRow(int row)
 
     activeTextEdits[0]->setFocus();
     focusedTextEdit = 0;
+}
+
+QString WordleLogic::getRandomSolution()
+{
+    int randomIndex = QRandomGenerator::global()->bounded(0, validSolutions.size() - 1);
+    qDebug() << "Solution:" << validSolutions[randomIndex];
+    return validSolutions[randomIndex];
 }
 
 void WordleLogic::nextActiveRow()
@@ -94,6 +102,21 @@ void WordleLogic::handleKeyPress(int key)
 
 void WordleLogic::handleSubmit()
 {
-    // TODO
-    nextActiveRow();
+    QString word;
+    for (auto textEdit : activeTextEdits) {
+        if (textEdit->toPlainText().isEmpty() || !textEdit->toPlainText().at(0).isLetter()) {
+            // not all 5 textEdits have a letter
+            return;
+        } else {
+            word = word + textEdit->toPlainText().at(0);
+        }
+    }
+
+    if (validWords.contains(word.toLower())) {
+        //TODO: check word
+
+        nextActiveRow();
+    } else {
+        qDebug() << "not a word";
+    }
 }
