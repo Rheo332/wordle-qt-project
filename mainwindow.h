@@ -4,6 +4,7 @@
 #include <QKeyEvent>
 #include <QMainWindow>
 #include <customtextedit.h>
+#include <wordlelogic.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {

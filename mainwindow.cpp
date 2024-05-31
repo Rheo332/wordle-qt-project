@@ -1,8 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include <wordlelogic.h>
-
 WordleLogic wl;
 
 MainWindow::MainWindow(QWidget *parent)
