@@ -22,6 +22,7 @@ public:
 
 private slots:
     void onSubmitClicked();
+    void onRestartClicked();
     void onKeyPress(QKeyEvent *event);
 
 private:

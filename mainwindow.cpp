@@ -14,6 +14,7 @@ MainWindow::MainWindow(QWidget *parent)
         connect(textEdit, &CustomTextEdit::keyPressSignal, this, &MainWindow::onKeyPress);
     }
     connect(ui->submitButton, &QPushButton::clicked, this, &MainWindow::onSubmitClicked);
+    connect(ui->restartButton, &QPushButton::clicked, this, &MainWindow::onRestartClicked);
 }
 
 MainWindow::~MainWindow()
@@ -29,4 +30,9 @@ void MainWindow::onKeyPress(QKeyEvent *event)
 void MainWindow::onSubmitClicked()
 {
     wl.handleSubmit();
+}
+
+void MainWindow::onRestartClicked()
+{
+    wl.handleRestart();
 }

@@ -14,19 +14,23 @@ class WordleLogic
 public:
     QList<CustomTextEdit *> allTextEdits;
     QList<CustomTextEdit *> activeTextEdits;
+
     void initialSetup(QList<QObject *> children);
     void nextActiveRow();
     void handleKeyPress(int key);
     void handleSubmit();
+    void handleRestart();
 
 private:
     QList<QString> validSolutions;
     QList<QString> validWords;
     QString solution;
-    int activeRow = 0;
-    int focusedTextEdit = 0;
-    void setActiveRow(int row);
+    int activeRow;
+    int focusedTextEdit;
+
     QString getRandomSolution();
+    void setActiveRow(int row);
+    void startGame();
 };
 
 #endif // WORDLELOGIC_H

@@ -2,6 +2,10 @@
 
 void WordleLogic::initialSetup(QList<QObject *> children)
 {
+    FileLogic fLogic;
+    validSolutions = fLogic.readTextFile("://valid-solutions.txt");
+    validWords = fLogic.readTextFile("://valid-words.txt");
+
     for (auto *child : children) {
         if (CustomTextEdit *textEdit = qobject_cast<CustomTextEdit *>(child)) {
             allTextEdits << textEdit;
@@ -9,18 +13,7 @@ void WordleLogic::initialSetup(QList<QObject *> children)
         }
     }
 
-    setActiveRow(activeRow);
-    std::sort(allTextEdits.begin(), allTextEdits.end(), [](CustomTextEdit *l, CustomTextEdit *r) {
-        return l->objectName() < r->objectName();
-    });
-
-    activeTextEdits[0]->setFocus();
-
-    FileLogic fLogic;
-    validSolutions = fLogic.readTextFile("://valid-solutions.txt");
-    validWords = fLogic.readTextFile("://valid-words.txt");
-
-    solution = getRandomSolution();
+    startGame();
 }
 
 void WordleLogic::setActiveRow(int row)
@@ -47,8 +40,21 @@ void WordleLogic::setActiveRow(int row)
     focusedTextEdit = 0;
 }
 
+void WordleLogic::startGame()
+{
+    activeRow = 0;
+    focusedTextEdit = 0;
+    setActiveRow(activeRow);
+    std::sort(allTextEdits.begin(), allTextEdits.end(), [](CustomTextEdit *l, CustomTextEdit *r) {
+        return l->objectName() < r->objectName();
+    });
+    activeTextEdits[0]->setFocus();
+    solution = getRandomSolution();
+}
+
 QString WordleLogic::getRandomSolution()
 {
+    // TODO: use saved gamestats to prevent same word twice in a row
     int randomIndex = QRandomGenerator::global()->bounded(0, validSolutions.size() - 1);
     qDebug() << "Solution:" << validSolutions[randomIndex];
     return validSolutions[randomIndex];
@@ -63,10 +69,14 @@ void WordleLogic::handleKeyPress(int key)
 {
     switch (key) {
     case Qt::Key_Backspace:
-        activeTextEdits[focusedTextEdit]->setPlainText("");
-        if (focusedTextEdit > 0) {
-            focusedTextEdit--;
-            activeTextEdits[focusedTextEdit]->setFocus();
+        if (!activeTextEdits[focusedTextEdit]->toPlainText().isEmpty()) {
+            activeTextEdits[focusedTextEdit]->setPlainText("");
+        } else {
+            if (focusedTextEdit > 0) {
+                focusedTextEdit--;
+                activeTextEdits[focusedTextEdit]->setFocus();
+                activeTextEdits[focusedTextEdit]->setPlainText("");
+            }
         }
         break;
     case Qt::Key_Return:
@@ -106,17 +116,53 @@ void WordleLogic::handleSubmit()
     for (auto textEdit : activeTextEdits) {
         if (textEdit->toPlainText().isEmpty() || !textEdit->toPlainText().at(0).isLetter()) {
             // not all 5 textEdits have a letter
+
+            // TODO: visualize wrong word
+
             return;
         } else {
             word = word + textEdit->toPlainText().at(0);
         }
     }
 
-    if (validWords.contains(word.toLower())) {
-        //TODO: check word
+    word = word.toLower();
+    QString tempSolution = solution;
+    if (validWords.contains(word)) {
+        if (word == tempSolution) {
+            for (auto te : activeTextEdits) {
+                te->setStyleSheet("background-color: #007700;");
+                te->setEnabled(false);
+            }
+            // TODO: End the game ?
+            // TODO: save game stats
+        } else {
+            for (int i = tempSolution.size() - 1; i >= 0; --i) {
+                if (word.at(i) == tempSolution.at(i)) {
+                    activeTextEdits[i]->setStyleSheet("background-color: #007700;");
+                    word[i] = '0';
+                    tempSolution[i] = '0';
+                }
+            }
 
-        nextActiveRow();
+            for (int i = 0; i < tempSolution.size(); ++i) {
+                if (tempSolution.at(i) != '0' && tempSolution.contains(word.at(i))) {
+                    activeTextEdits[i]->setStyleSheet("background-color: #B0B000;");
+                }
+            }
+            nextActiveRow();
+        }
     } else {
+        // TODO: visualize wrong word
         qDebug() << "not a word";
     }
+}
+
+void WordleLogic::handleRestart()
+{
+    for (auto te : allTextEdits) {
+        te->setPlainText("");
+        te->setStyleSheet("");
+        te->setEnabled(false);
+    }
+    startGame();
 }
