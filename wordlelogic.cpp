@@ -7,9 +7,9 @@ void WordleLogic::initialSetup(QList<QObject *> children)
     validWords = fLogic.readTextFile("://valid-words.txt");
 
     for (auto *child : children) {
-        if (CustomTextEdit *textEdit = qobject_cast<CustomTextEdit *>(child)) {
-            allTextEdits << textEdit;
-            textEdit->setEnabled(false);
+        if (CustomLineEdit *lineEdit = qobject_cast<CustomLineEdit *>(child)) {
+            allLineEdits << lineEdit;
+            lineEdit->setEnabled(false);
         }
     }
 
@@ -23,32 +23,32 @@ void WordleLogic::setActiveRow(int row)
     }
 
     activeRow = row;
-    if (!activeTextEdits.isEmpty()) {
-        for (auto edit : activeTextEdits) {
+    if (!activeLineEdits.isEmpty()) {
+        for (auto edit : activeLineEdits) {
             edit->setEnabled(false);
         }
-        activeTextEdits.clear();
+        activeLineEdits.clear();
     }
 
-    int firstTextEdit = activeRow * 5;
-    for (int i = firstTextEdit; i < firstTextEdit + 5; ++i) {
-        activeTextEdits << allTextEdits[i];
-        allTextEdits[i]->setEnabled(true);
+    int firstLineEdit = activeRow * 5;
+    for (int i = firstLineEdit; i < firstLineEdit + 5; ++i) {
+        activeLineEdits << allLineEdits[i];
+        allLineEdits[i]->setEnabled(true);
     }
 
-    activeTextEdits[0]->setFocus();
-    focusedTextEdit = 0;
+    activeLineEdits[0]->setFocus();
+    focusedLineEdit = 0;
 }
 
 void WordleLogic::startGame()
 {
     activeRow = 0;
-    focusedTextEdit = 0;
+    focusedLineEdit = 0;
     setActiveRow(activeRow);
-    std::sort(allTextEdits.begin(), allTextEdits.end(), [](CustomTextEdit *l, CustomTextEdit *r) {
+    std::sort(allLineEdits.begin(), allLineEdits.end(), [](CustomLineEdit *l, CustomLineEdit *r) {
         return l->objectName() < r->objectName();
     });
-    activeTextEdits[0]->setFocus();
+    activeLineEdits[0]->setFocus();
     solution = getRandomSolution();
 }
 
@@ -69,13 +69,13 @@ void WordleLogic::handleKeyPress(int key)
 {
     switch (key) {
     case Qt::Key_Backspace:
-        if (!activeTextEdits[focusedTextEdit]->toPlainText().isEmpty()) {
-            activeTextEdits[focusedTextEdit]->setPlainText("");
+        if (!activeLineEdits[focusedLineEdit]->text().isEmpty()) {
+            activeLineEdits[focusedLineEdit]->setText("");
         } else {
-            if (focusedTextEdit > 0) {
-                focusedTextEdit--;
-                activeTextEdits[focusedTextEdit]->setFocus();
-                activeTextEdits[focusedTextEdit]->setPlainText("");
+            if (focusedLineEdit > 0) {
+                focusedLineEdit--;
+                activeLineEdits[focusedLineEdit]->setFocus();
+                activeLineEdits[focusedLineEdit]->setText("");
             }
         }
         break;
@@ -84,27 +84,29 @@ void WordleLogic::handleKeyPress(int key)
         break;
     case Qt::Key_Left:
     case Qt::Key_Up:
-        if (focusedTextEdit > 0) {
-            focusedTextEdit--;
-            activeTextEdits[focusedTextEdit]->setFocus();
+        if (focusedLineEdit > 0) {
+            focusedLineEdit--;
+            activeLineEdits[focusedLineEdit]->setFocus();
         }
         break;
     case Qt::Key_Right:
     case Qt::Key_Down:
-        if (focusedTextEdit < 4) {
-            focusedTextEdit++;
-            activeTextEdits[focusedTextEdit]->setFocus();
+        if (focusedLineEdit < 4) {
+            focusedLineEdit++;
+            activeLineEdits[focusedLineEdit]->setFocus();
         }
         break;
     default:
         QChar c = (char) key;
         if (c.isLetter()) {
             c = c.toUpper();
-            activeTextEdits[focusedTextEdit]->setPlainText(c);
-            if (focusedTextEdit < 4) {
-                focusedTextEdit++;
+            activeLineEdits[focusedLineEdit]->setText(c);
+            activeLineEdits[focusedLineEdit]->startKeyPressAnimation();
+
+            if (focusedLineEdit < 4) {
+                focusedLineEdit++;
             }
-            activeTextEdits[focusedTextEdit]->setFocus();
+            activeLineEdits[focusedLineEdit]->setFocus();
         }
         break;
     }
@@ -113,15 +115,15 @@ void WordleLogic::handleKeyPress(int key)
 void WordleLogic::handleSubmit()
 {
     QString word;
-    for (auto textEdit : activeTextEdits) {
-        if (textEdit->toPlainText().isEmpty() || !textEdit->toPlainText().at(0).isLetter()) {
-            // not all 5 textEdits have a letter
-
-            // TODO: visualize wrong word
-
+    for (auto lineEdit : activeLineEdits) {
+        if (lineEdit->text().isEmpty() || !lineEdit->text().at(0).isLetter()) {
+            for (auto lineEdit : activeLineEdits) {
+                // TODO: implement this animation
+                lineEdit->startWrongWordAnimation();
+            }
             return;
         } else {
-            word = word + textEdit->toPlainText().at(0);
+            word = word + lineEdit->text().at(0);
         }
     }
 
@@ -129,16 +131,17 @@ void WordleLogic::handleSubmit()
     QString tempSolution = solution;
     if (validWords.contains(word)) {
         if (word == tempSolution) {
-            for (auto te : activeTextEdits) {
+            for (auto te : activeLineEdits) {
                 te->setStyleSheet("background-color: #007700;");
                 te->setEnabled(false);
             }
+
             // TODO: End the game ?
             // TODO: save game stats
         } else {
             for (int i = tempSolution.size() - 1; i >= 0; --i) {
                 if (word.at(i) == tempSolution.at(i)) {
-                    activeTextEdits[i]->setStyleSheet("background-color: #007700;");
+                    activeLineEdits[i]->setStyleSheet("background-color: #007700;");
                     word[i] = '0';
                     tempSolution[i] = '0';
                 }
@@ -146,23 +149,26 @@ void WordleLogic::handleSubmit()
 
             for (int i = 0; i < tempSolution.size(); ++i) {
                 if (tempSolution.at(i) != '0' && tempSolution.contains(word.at(i))) {
-                    activeTextEdits[i]->setStyleSheet("background-color: #B0B000;");
+                    activeLineEdits[i]->setStyleSheet("background-color: #B0B000;");
                 }
             }
-            nextActiveRow();
+            if (activeRow < 5) {
+                nextActiveRow();
+            }
         }
     } else {
-        // TODO: visualize wrong word
+        for (auto lineEdit : activeLineEdits) {
+            // TODO: implement this animation
+            lineEdit->startWrongWordAnimation();
+        }
         qDebug() << "not a word";
     }
 }
 
 void WordleLogic::handleRestart()
 {
-    for (auto te : allTextEdits) {
-        te->setPlainText("");
-        te->setStyleSheet("");
-        te->setEnabled(false);
+    for (auto te : allLineEdits) {
+        te->startResetAnimation();
     }
     startGame();
 }

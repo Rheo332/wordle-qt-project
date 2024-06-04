@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Wordle</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="resources.qrc">
+    <normaloff>:/cat_icon.png</normaloff>:/cat_icon.png</iconset>
+  </property>
   <property name="autoFillBackground">
    <bool>false</bool>
   </property>
@@ -21,21 +25,18 @@
 	background-color: #202020;
 }
 
-QTextEdit {
-	font-size: 30px;
-	font-weight: bold;
+QLineEdit{
 	border: 2px solid #808080;
 	border-radius: 4px;
 	background-color: #404040;
-	padding-top: 4px;
-	padding-left: 12px;
+    color: #FFFFFF;
 }
 
-QTextEdit:focus { 
+QLineEdit:focus { 
 	background-color: #505050;
 }
 
-QTextEdit:disabled {
+QLineEdit:disabled {
 	background-color: #303030;
 	color: #FFFFFF;
 }
@@ -55,309 +56,6 @@ QTextEdit:disabled {
      <string>Enter</string>
     </property>
    </widget>
-   <widget class="CustomTextEdit" name="textEdit_1_1">
-    <property name="geometry">
-     <rect>
-      <x>280</x>
-      <y>20</y>
-      <width>60</width>
-      <height>60</height>
-     </rect>
-    </property>
-    <property name="cursorWidth">
-     <number>1</number>
-    </property>
-   </widget>
-   <widget class="CustomTextEdit" name="textEdit_1_2">
-    <property name="geometry">
-     <rect>
-      <x>350</x>
-      <y>20</y>
-      <width>60</width>
-      <height>60</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="CustomTextEdit" name="textEdit_1_3">
-    <property name="geometry">
-     <rect>
-      <x>420</x>
-      <y>20</y>
-      <width>60</width>
-      <height>60</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="CustomTextEdit" name="textEdit_1_4">
-    <property name="geometry">
-     <rect>
-      <x>490</x>
-      <y>20</y>
-      <width>60</width>
-      <height>60</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="CustomTextEdit" name="textEdit_1_5">
-    <property name="geometry">
-     <rect>
-      <x>560</x>
-      <y>20</y>
-      <width>60</width>
-      <height>60</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="CustomTextEdit" name="textEdit_2_1">
-    <property name="geometry">
-     <rect>
-      <x>280</x>
-      <y>90</y>
-      <width>60</width>
-      <height>60</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="CustomTextEdit" name="textEdit_2_2">
-    <property name="geometry">
-     <rect>
-      <x>350</x>
-      <y>90</y>
-      <width>60</width>
-      <height>60</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="CustomTextEdit" name="textEdit_2_3">
-    <property name="geometry">
-     <rect>
-      <x>420</x>
-      <y>90</y>
-      <width>60</width>
-      <height>60</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="CustomTextEdit" name="textEdit_2_4">
-    <property name="geometry">
-     <rect>
-      <x>490</x>
-      <y>90</y>
-      <width>60</width>
-      <height>60</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="CustomTextEdit" name="textEdit_2_5">
-    <property name="geometry">
-     <rect>
-      <x>560</x>
-      <y>90</y>
-      <width>60</width>
-      <height>60</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="CustomTextEdit" name="textEdit_3_1">
-    <property name="geometry">
-     <rect>
-      <x>280</x>
-      <y>160</y>
-      <width>60</width>
-      <height>60</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="CustomTextEdit" name="textEdit_3_2">
-    <property name="geometry">
-     <rect>
-      <x>350</x>
-      <y>160</y>
-      <width>60</width>
-      <height>60</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="CustomTextEdit" name="textEdit_3_3">
-    <property name="geometry">
-     <rect>
-      <x>420</x>
-      <y>160</y>
-      <width>60</width>
-      <height>60</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="CustomTextEdit" name="textEdit_3_4">
-    <property name="geometry">
-     <rect>
-      <x>490</x>
-      <y>160</y>
-      <width>60</width>
-      <height>60</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="CustomTextEdit" name="textEdit_3_5">
-    <property name="geometry">
-     <rect>
-      <x>560</x>
-      <y>160</y>
-      <width>60</width>
-      <height>60</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="CustomTextEdit" name="textEdit_4_1">
-    <property name="geometry">
-     <rect>
-      <x>280</x>
-      <y>230</y>
-      <width>60</width>
-      <height>60</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="CustomTextEdit" name="textEdit_4_2">
-    <property name="geometry">
-     <rect>
-      <x>350</x>
-      <y>230</y>
-      <width>60</width>
-      <height>60</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="CustomTextEdit" name="textEdit_4_3">
-    <property name="geometry">
-     <rect>
-      <x>420</x>
-      <y>230</y>
-      <width>60</width>
-      <height>60</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="CustomTextEdit" name="textEdit_4_4">
-    <property name="geometry">
-     <rect>
-      <x>490</x>
-      <y>230</y>
-      <width>60</width>
-      <height>60</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="CustomTextEdit" name="textEdit_4_5">
-    <property name="geometry">
-     <rect>
-      <x>560</x>
-      <y>230</y>
-      <width>60</width>
-      <height>60</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="CustomTextEdit" name="textEdit_5_1">
-    <property name="geometry">
-     <rect>
-      <x>280</x>
-      <y>300</y>
-      <width>60</width>
-      <height>60</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="CustomTextEdit" name="textEdit_5_2">
-    <property name="geometry">
-     <rect>
-      <x>350</x>
-      <y>300</y>
-      <width>60</width>
-      <height>60</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="CustomTextEdit" name="textEdit_5_3">
-    <property name="geometry">
-     <rect>
-      <x>420</x>
-      <y>300</y>
-      <width>60</width>
-      <height>60</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="CustomTextEdit" name="textEdit_5_4">
-    <property name="geometry">
-     <rect>
-      <x>490</x>
-      <y>300</y>
-      <width>60</width>
-      <height>60</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="CustomTextEdit" name="textEdit_5_5">
-    <property name="geometry">
-     <rect>
-      <x>560</x>
-      <y>300</y>
-      <width>60</width>
-      <height>60</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="CustomTextEdit" name="textEdit_6_1">
-    <property name="geometry">
-     <rect>
-      <x>280</x>
-      <y>370</y>
-      <width>60</width>
-      <height>60</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="CustomTextEdit" name="textEdit_6_2">
-    <property name="geometry">
-     <rect>
-      <x>350</x>
-      <y>370</y>
-      <width>60</width>
-      <height>60</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="CustomTextEdit" name="textEdit_6_3">
-    <property name="geometry">
-     <rect>
-      <x>420</x>
-      <y>370</y>
-      <width>60</width>
-      <height>60</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="CustomTextEdit" name="textEdit_6_4">
-    <property name="geometry">
-     <rect>
-      <x>490</x>
-      <y>370</y>
-      <width>60</width>
-      <height>60</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="CustomTextEdit" name="textEdit_6_5">
-    <property name="geometry">
-     <rect>
-      <x>560</x>
-      <y>370</y>
-      <width>60</width>
-      <height>60</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QPushButton" name="restartButton">
     <property name="geometry">
      <rect>
@@ -369,6 +67,319 @@ QTextEdit:disabled {
     </property>
     <property name="text">
      <string>Restart</string>
+    </property>
+   </widget>
+   <widget class="CustomLineEdit" name="lineEdit_1_1">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>20</y>
+      <width>61</width>
+      <height>61</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="CustomLineEdit" name="lineEdit_1_2">
+    <property name="geometry">
+     <rect>
+      <x>350</x>
+      <y>20</y>
+      <width>61</width>
+      <height>61</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="CustomLineEdit" name="lineEdit_1_3">
+    <property name="geometry">
+     <rect>
+      <x>420</x>
+      <y>20</y>
+      <width>61</width>
+      <height>61</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="CustomLineEdit" name="lineEdit_1_4">
+    <property name="geometry">
+     <rect>
+      <x>490</x>
+      <y>20</y>
+      <width>61</width>
+      <height>61</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="CustomLineEdit" name="lineEdit_1_5">
+    <property name="geometry">
+     <rect>
+      <x>560</x>
+      <y>20</y>
+      <width>61</width>
+      <height>61</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="CustomLineEdit" name="lineEdit_2_1">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>90</y>
+      <width>61</width>
+      <height>61</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="CustomLineEdit" name="lineEdit_2_2">
+    <property name="geometry">
+     <rect>
+      <x>350</x>
+      <y>90</y>
+      <width>61</width>
+      <height>61</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="CustomLineEdit" name="lineEdit_2_3">
+    <property name="geometry">
+     <rect>
+      <x>420</x>
+      <y>90</y>
+      <width>61</width>
+      <height>61</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="CustomLineEdit" name="lineEdit_2_4">
+    <property name="geometry">
+     <rect>
+      <x>490</x>
+      <y>90</y>
+      <width>61</width>
+      <height>61</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="CustomLineEdit" name="lineEdit_2_5">
+    <property name="geometry">
+     <rect>
+      <x>560</x>
+      <y>90</y>
+      <width>61</width>
+      <height>61</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="CustomLineEdit" name="lineEdit_3_1">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>160</y>
+      <width>61</width>
+      <height>61</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="CustomLineEdit" name="lineEdit_3_2">
+    <property name="geometry">
+     <rect>
+      <x>350</x>
+      <y>160</y>
+      <width>61</width>
+      <height>61</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="CustomLineEdit" name="lineEdit_3_3">
+    <property name="geometry">
+     <rect>
+      <x>420</x>
+      <y>160</y>
+      <width>61</width>
+      <height>61</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="CustomLineEdit" name="lineEdit_3_4">
+    <property name="geometry">
+     <rect>
+      <x>490</x>
+      <y>160</y>
+      <width>61</width>
+      <height>61</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="CustomLineEdit" name="lineEdit_3_5">
+    <property name="geometry">
+     <rect>
+      <x>560</x>
+      <y>160</y>
+      <width>61</width>
+      <height>61</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="CustomLineEdit" name="lineEdit_4_1">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>230</y>
+      <width>61</width>
+      <height>61</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="CustomLineEdit" name="lineEdit_4_2">
+    <property name="geometry">
+     <rect>
+      <x>350</x>
+      <y>230</y>
+      <width>61</width>
+      <height>61</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="CustomLineEdit" name="lineEdit_4_3">
+    <property name="geometry">
+     <rect>
+      <x>420</x>
+      <y>230</y>
+      <width>61</width>
+      <height>61</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="CustomLineEdit" name="lineEdit_4_4">
+    <property name="geometry">
+     <rect>
+      <x>490</x>
+      <y>230</y>
+      <width>61</width>
+      <height>61</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="CustomLineEdit" name="lineEdit_4_5">
+    <property name="geometry">
+     <rect>
+      <x>560</x>
+      <y>230</y>
+      <width>61</width>
+      <height>61</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="CustomLineEdit" name="lineEdit_5_1">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>300</y>
+      <width>61</width>
+      <height>61</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="CustomLineEdit" name="lineEdit_5_2">
+    <property name="geometry">
+     <rect>
+      <x>350</x>
+      <y>300</y>
+      <width>61</width>
+      <height>61</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="CustomLineEdit" name="lineEdit_5_3">
+    <property name="geometry">
+     <rect>
+      <x>420</x>
+      <y>300</y>
+      <width>61</width>
+      <height>61</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="CustomLineEdit" name="lineEdit_5_4">
+    <property name="geometry">
+     <rect>
+      <x>490</x>
+      <y>300</y>
+      <width>61</width>
+      <height>61</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="CustomLineEdit" name="lineEdit_5_5">
+    <property name="geometry">
+     <rect>
+      <x>560</x>
+      <y>300</y>
+      <width>61</width>
+      <height>61</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="CustomLineEdit" name="lineEdit_6_1">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>370</y>
+      <width>61</width>
+      <height>61</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="CustomLineEdit" name="lineEdit_6_2">
+    <property name="geometry">
+     <rect>
+      <x>350</x>
+      <y>370</y>
+      <width>61</width>
+      <height>61</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="CustomLineEdit" name="lineEdit_6_3">
+    <property name="geometry">
+     <rect>
+      <x>420</x>
+      <y>370</y>
+      <width>61</width>
+      <height>61</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="CustomLineEdit" name="lineEdit_6_4">
+    <property name="geometry">
+     <rect>
+      <x>490</x>
+      <y>370</y>
+      <width>61</width>
+      <height>61</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="CustomLineEdit" name="lineEdit_6_5">
+    <property name="geometry">
+     <rect>
+      <x>560</x>
+      <y>370</y>
+      <width>61</width>
+      <height>61</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="rightLabel">
+    <property name="geometry">
+     <rect>
+      <x>650</x>
+      <y>120</y>
+      <width>151</width>
+      <height>211</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
     </property>
    </widget>
   </widget>
@@ -386,11 +397,13 @@ QTextEdit:disabled {
  </widget>
  <customwidgets>
   <customwidget>
-   <class>CustomTextEdit</class>
-   <extends>QTextEdit</extends>
-   <header>customtextedit.h</header>
+   <class>CustomLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header location="global">customlineedit.h</header>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

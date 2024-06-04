@@ -6,14 +6,14 @@
 #include <QList>
 #include <QRandomGenerator>
 #include <QTextStream>
-#include <customtextedit.h>
+#include <customlineedit.h>
 #include <filelogic.h>
 
 class WordleLogic
 {
 public:
-    QList<CustomTextEdit *> allTextEdits;
-    QList<CustomTextEdit *> activeTextEdits;
+    QList<CustomLineEdit *> allLineEdits;
+    QList<CustomLineEdit *> activeLineEdits;
 
     void initialSetup(QList<QObject *> children);
     void nextActiveRow();
@@ -26,7 +26,7 @@ private:
     QList<QString> validWords;
     QString solution;
     int activeRow;
-    int focusedTextEdit;
+    int focusedLineEdit;
 
     QString getRandomSolution();
     void setActiveRow(int row);

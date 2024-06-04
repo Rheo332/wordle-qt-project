@@ -9,14 +9,14 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    customtextedit.cpp \
+    customlineedit.cpp \
     filelogic.cpp \
     main.cpp \
     mainwindow.cpp \
     wordlelogic.cpp
 
 HEADERS += \
-    customtextedit.h \
+    customlineedit.h \
     filelogic.h \
     mainwindow.h \
     wordlelogic.h

@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>valid-solutions.txt</file>
         <file>valid-words.txt</file>
+        <file>cat_icon.png</file>
     </qresource>
 </RCC>

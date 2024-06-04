@@ -18,6 +18,5 @@ QList<QString> FileLogic::readTextFile(const QString &filePath)
     }
 
     file.close();
-
     return outList;
 }
