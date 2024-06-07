@@ -16,7 +16,6 @@ MainWindow::MainWindow(QWidget *parent)
         connect(lineEdit, &CustomLineEdit::keyPressSignal, this, &MainWindow::onKeyPress);
         lineEdit->setupAnimation();
     }
-    connect(ui->submitButton, &QPushButton::clicked, this, &MainWindow::onSubmitClicked);
     connect(ui->restartButton, &QPushButton::clicked, this, &MainWindow::onRestartClicked);
 }
 

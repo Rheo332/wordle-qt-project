@@ -25,7 +25,8 @@ FORMS += \
     mainwindow.ui
 
 RESOURCES += \
-    resources.qrc
+    resources.qrc \
+    savedata.csv
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

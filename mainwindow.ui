@@ -43,23 +43,10 @@ QLineEdit:disabled {
 </string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="submitButton">
-    <property name="geometry">
-     <rect>
-      <x>460</x>
-      <y>450</y>
-      <width>121</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Enter</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="restartButton">
     <property name="geometry">
      <rect>
-      <x>330</x>
+      <x>390</x>
       <y>450</y>
       <width>111</width>
       <height>41</height>

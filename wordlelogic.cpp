@@ -1,10 +1,20 @@
 #include "wordlelogic.h"
 
+#define validSolutionsFileString ":/valid-solutions.txt"
+#define validWordsFileString ":/valid-words.txt"
+#define saveDataFileString "./savedata.csv"
+
 void WordleLogic::initialSetup(QList<QObject *> children)
 {
-    FileLogic fLogic;
-    validSolutions = fLogic.readTextFile("://valid-solutions.txt");
-    validWords = fLogic.readTextFile("://valid-words.txt");
+    try {
+        validSolutions = fLogic.readTextFile(validSolutionsFileString);
+        validWords = fLogic.readTextFile(validWordsFileString);
+        saveFile = fLogic.readCsvFile(saveDataFileString);
+    } catch (const char *msg) {
+        qDebug() << msg;
+    } catch (QString msg) {
+        qDebug() << msg;
+    }
 
     for (auto *child : children) {
         if (CustomLineEdit *lineEdit = qobject_cast<CustomLineEdit *>(child)) {
@@ -12,14 +22,20 @@ void WordleLogic::initialSetup(QList<QObject *> children)
             lineEdit->setEnabled(false);
         }
     }
-
     startGame();
 }
 
 void WordleLogic::setActiveRow(int row)
 {
     if (row > 5) {
-        throw std::range_error("Trying to set active row > 5");
+        throw "Trying to set active row > 5";
+    }
+
+    if (row < 0) {
+        for (auto edit : allLineEdits) {
+            edit->setEnabled(false);
+        }
+        return;
     }
 
     activeRow = row;
@@ -54,15 +70,31 @@ void WordleLogic::startGame()
 
 QString WordleLogic::getRandomSolution()
 {
-    // TODO: use saved gamestats to prevent same word twice in a row
     int randomIndex = QRandomGenerator::global()->bounded(0, validSolutions.size() - 1);
+    auto checkWords = [this, &randomIndex]() -> bool {
+        for (const auto &row : saveFile) {
+            if (row.word == validSolutions[randomIndex]) {
+                return true;
+            }
+        }
+        return false;
+    };
+
+    while (checkWords()) {
+        randomIndex = QRandomGenerator::global()->bounded(0, validSolutions.size() - 1);
+    }
+
     qDebug() << "Solution:" << validSolutions[randomIndex];
     return validSolutions[randomIndex];
 }
 
 void WordleLogic::nextActiveRow()
 {
-    setActiveRow(activeRow + 1);
+    try {
+        setActiveRow(activeRow + 1);
+    } catch (const char *msg) {
+        qDebug() << msg;
+    }
 }
 
 void WordleLogic::handleKeyPress(int key)
@@ -118,7 +150,6 @@ void WordleLogic::handleSubmit()
     for (auto lineEdit : activeLineEdits) {
         if (lineEdit->text().isEmpty() || !lineEdit->text().at(0).isLetter()) {
             for (auto lineEdit : activeLineEdits) {
-                // TODO: implement this animation
                 lineEdit->startWrongWordAnimation();
             }
             return;
@@ -135,9 +166,11 @@ void WordleLogic::handleSubmit()
                 te->setStyleSheet("background-color: #007700;");
                 te->setEnabled(false);
             }
+            SaveFileRow lastRow = saveFile.last();
+            SaveFileRow newRow{solution, lastRow.games + 1, lastRow.wins + 1, lastRow.streak + 1};
+            fLogic.writeCsvFile(saveDataFileString, newRow);
 
             // TODO: End the game ?
-            // TODO: save game stats
         } else {
             for (int i = tempSolution.size() - 1; i >= 0; --i) {
                 if (word.at(i) == tempSolution.at(i)) {
@@ -154,14 +187,19 @@ void WordleLogic::handleSubmit()
             }
             if (activeRow < 5) {
                 nextActiveRow();
+            } else {
+                SaveFileRow lastRow = saveFile.last();
+                SaveFileRow newRow{solution, lastRow.games + 1, lastRow.wins, 0};
+                fLogic.writeCsvFile(saveDataFileString, newRow);
+                setActiveRow(-1);
+
+                // TODO: End the game?
             }
         }
     } else {
         for (auto lineEdit : activeLineEdits) {
-            // TODO: implement this animation
             lineEdit->startWrongWordAnimation();
         }
-        qDebug() << "not a word";
     }
 }
 
@@ -170,5 +208,6 @@ void WordleLogic::handleRestart()
     for (auto te : allLineEdits) {
         te->startResetAnimation();
     }
+    saveFile = fLogic.readCsvFile(saveDataFileString);
     startGame();
 }

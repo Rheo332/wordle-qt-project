@@ -24,6 +24,8 @@ public:
 private:
     QList<QString> validSolutions;
     QList<QString> validWords;
+    QList<SaveFileRow> saveFile;
+    FileLogic fLogic;
     QString solution;
     int activeRow;
     int focusedLineEdit;

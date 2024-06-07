@@ -22,6 +22,9 @@ protected:
     void keyPressEvent(QKeyEvent *event) override;
 
 private:
+    void setupKeyPressAnimation();
+    void setupResetAnimation();
+    void setupWrongWordAnimation();
     QSequentialAnimationGroup *keyPressAnimationGroup = new QSequentialAnimationGroup();
     QSequentialAnimationGroup *resetAnimationGroup = new QSequentialAnimationGroup();
     QSequentialAnimationGroup *wrongWordAnimationGroup = new QSequentialAnimationGroup();

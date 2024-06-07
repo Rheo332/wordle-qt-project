@@ -30,7 +30,7 @@ void CustomLineEdit::startWrongWordAnimation()
     wrongWordAnimationGroup->start();
 }
 
-void CustomLineEdit::setupAnimation()
+void CustomLineEdit::setupKeyPressAnimation()
 {
     QRect rectStartValue = QRect(this->geometry());
     QRect rectEndValue = QRect(this->geometry()).adjusted(-7, -7, 7, 7);
@@ -49,6 +49,12 @@ void CustomLineEdit::setupAnimation()
 
     keyPressAnimationGroup->addAnimation(rectGrowAnimation);
     keyPressAnimationGroup->addAnimation(rectShrinkAnimation);
+}
+
+void CustomLineEdit::setupResetAnimation()
+{
+    QRect rectStartValue = QRect(this->geometry());
+    QRect rectEndValue = QRect(this->geometry()).adjusted(-7, -7, 7, 7);
 
     QString name = this->objectName();
     QChar colChar = name.at(name.size() - 1);
@@ -56,28 +62,62 @@ void CustomLineEdit::setupAnimation()
     int col = colChar.digitValue();
     int row = rowChar.digitValue();
 
-    QPropertyAnimation *rectGrowAnimation2 = new QPropertyAnimation(this, "geometry");
-    rectGrowAnimation2->setDuration(100);
-    rectGrowAnimation2->setStartValue(rectStartValue);
-    rectGrowAnimation2->setEndValue(rectEndValue);
-    rectGrowAnimation2->setEasingCurve(QEasingCurve::OutQuad);
+    QPropertyAnimation *rectGrowAnimation = new QPropertyAnimation(this, "geometry");
+    rectGrowAnimation->setDuration(100);
+    rectGrowAnimation->setStartValue(rectStartValue);
+    rectGrowAnimation->setEndValue(rectEndValue);
+    rectGrowAnimation->setEasingCurve(QEasingCurve::OutQuad);
 
-    QPropertyAnimation *rectShrinkAnimation2 = new QPropertyAnimation(this, "geometry");
-    rectShrinkAnimation2->setDuration(100);
-    rectShrinkAnimation2->setStartValue(rectEndValue);
-    rectShrinkAnimation2->setEndValue(rectStartValue);
-    rectShrinkAnimation2->setEasingCurve(QEasingCurve::OutQuad);
+    QPropertyAnimation *rectShrinkAnimation = new QPropertyAnimation(this, "geometry");
+    rectShrinkAnimation->setDuration(100);
+    rectShrinkAnimation->setStartValue(rectEndValue);
+    rectShrinkAnimation->setEndValue(rectStartValue);
+    rectShrinkAnimation->setEasingCurve(QEasingCurve::OutQuad);
 
     resetAnimationGroup->addPause((row + col - 2) * 70);
-    resetAnimationGroup->addAnimation(rectGrowAnimation2);
-    resetAnimationGroup->addAnimation(rectShrinkAnimation2);
+    resetAnimationGroup->addAnimation(rectGrowAnimation);
+    resetAnimationGroup->addAnimation(rectShrinkAnimation);
 
     QObject::connect(resetAnimationGroup,
                      &QSequentialAnimationGroup::finished,
                      this,
                      &CustomLineEdit::resetLineEdit);
+}
 
-    // TODO: add wrongWordAnimationGroup
+void CustomLineEdit::setupWrongWordAnimation()
+{
+    QRect rectStartValue = QRect(this->geometry());
+    QRect rectPos1Value = QRect(this->geometry()).adjusted(-10, 0, -10, 0);
+    QRect rectPos2Value = QRect(this->geometry()).adjusted(10, 0, 10, 0);
+
+    QPropertyAnimation *rectMoveLeftAnimation = new QPropertyAnimation(this, "geometry");
+    rectMoveLeftAnimation->setDuration(100);
+    rectMoveLeftAnimation->setStartValue(rectStartValue);
+    rectMoveLeftAnimation->setEndValue(rectPos1Value);
+    rectMoveLeftAnimation->setEasingCurve(QEasingCurve::OutBounce);
+
+    QPropertyAnimation *rectMoveRightAnimation = new QPropertyAnimation(this, "geometry");
+    rectMoveRightAnimation->setDuration(100);
+    rectMoveRightAnimation->setStartValue(rectPos1Value);
+    rectMoveRightAnimation->setEndValue(rectPos2Value);
+    rectMoveRightAnimation->setEasingCurve(QEasingCurve::OutBounce);
+
+    QPropertyAnimation *rectMoveBackAnimation = new QPropertyAnimation(this, "geometry");
+    rectMoveBackAnimation->setDuration(100);
+    rectMoveBackAnimation->setStartValue(rectPos2Value);
+    rectMoveBackAnimation->setEndValue(rectStartValue);
+    rectMoveBackAnimation->setEasingCurve(QEasingCurve::OutBounce);
+
+    wrongWordAnimationGroup->addAnimation(rectMoveLeftAnimation);
+    wrongWordAnimationGroup->addAnimation(rectMoveRightAnimation);
+    wrongWordAnimationGroup->addAnimation(rectMoveBackAnimation);
+}
+
+void CustomLineEdit::setupAnimation()
+{
+    setupKeyPressAnimation();
+    setupResetAnimation();
+    setupWrongWordAnimation();
 }
 
 void CustomLineEdit::keyPressEvent(QKeyEvent *event)
