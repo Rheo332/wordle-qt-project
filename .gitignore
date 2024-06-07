@@ -36,6 +36,7 @@ Thumbs.db
 /.qmake.stash
 *AppDataLocalTemp*
 .qtc_clangd
+qmake_qmake_immediate*
 
 # qtcreator generated files
 *.pro.user*
