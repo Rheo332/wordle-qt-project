@@ -3,6 +3,7 @@
 
 #include <QFile>
 #include <QList>
+#include <QTextStream>
 
 struct SaveFileRow
 {
@@ -18,6 +19,7 @@ public:
     QList<QString> readTextFile(const QString &filePath);
     QList<SaveFileRow> readCsvFile(const QString &filePath);
     void writeCsvFile(const QString &filePath, SaveFileRow row);
+    void deleteCsvFile(const QString &filePath);
 };
 
 #endif // FILELOGIC_H

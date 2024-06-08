@@ -1,7 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <customlineedit.h>
-#include <wordlelogic.h>
+
+#include "customlineedit.h"
+#include "wordlelogic.h"
 
 WordleLogic wl;
 
@@ -16,7 +17,10 @@ MainWindow::MainWindow(QWidget *parent)
         connect(lineEdit, &CustomLineEdit::keyPressSignal, this, &MainWindow::onKeyPress);
         lineEdit->setupAnimation();
     }
+    QShortcut *shortcut = new QShortcut(QKeySequence("Ctrl+R"), this);
+    connect(shortcut, &QShortcut::activated, this, &MainWindow::onRestartClicked);
     connect(ui->restartButton, &QPushButton::clicked, this, &MainWindow::onRestartClicked);
+    connect(ui->deleteStatsButton, &QPushButton::clicked, this, &MainWindow::onDeleteClicked);
 }
 
 MainWindow::~MainWindow()
@@ -37,4 +41,9 @@ void MainWindow::onSubmitClicked()
 void MainWindow::onRestartClicked()
 {
     wl.handleRestart();
+}
+
+void MainWindow::onDeleteClicked()
+{
+    wl.handleDeleteSaveFile();
 }

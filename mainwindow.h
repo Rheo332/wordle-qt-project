@@ -3,6 +3,7 @@
 
 #include <QKeyEvent>
 #include <QMainWindow>
+#include <QShortcut>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -21,6 +22,7 @@ public:
 private slots:
     void onSubmitClicked();
     void onRestartClicked();
+    void onDeleteClicked();
     void onKeyPress(QKeyEvent *event);
 
 private:

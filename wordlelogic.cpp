@@ -3,6 +3,7 @@
 #define validSolutionsFileString ":/valid-solutions.txt"
 #define validWordsFileString ":/valid-words.txt"
 #define saveDataFileString "./savedata.csv"
+#define getVariableName(Variable) (void(Variable), #Variable)
 
 void WordleLogic::initialSetup(QList<QObject *> children)
 {
@@ -20,8 +21,24 @@ void WordleLogic::initialSetup(QList<QObject *> children)
         if (CustomLineEdit *lineEdit = qobject_cast<CustomLineEdit *>(child)) {
             allLineEdits << lineEdit;
             lineEdit->setEnabled(false);
+        } else if (QLabel *labelEdit = qobject_cast<QLabel *>(child)) {
+            QString name = labelEdit->objectName();
+            if (name == QString(getVariableName(endLabel))) {
+                endLabel = labelEdit;
+            } else if (name == QString(getVariableName(infoLabel))) {
+                infoLabel = labelEdit;
+            } else if (name == QString(getVariableName(statsLabel))) {
+                statsLabel = labelEdit;
+            } else if (name == QString(getVariableName(warningLabel))) {
+                warningLabel = labelEdit;
+            }
         }
     }
+    warningLabel->setWordWrap(true);
+    warningLabel->setText("Warning: This will delete your save file! Continue?");
+    warningLabel->hide();
+    infoLabel->setWordWrap(true);
+    infoLabel->setText("Ctrl + R to restart the game");
     startGame();
 }
 
@@ -58,6 +75,8 @@ void WordleLogic::setActiveRow(int row)
 
 void WordleLogic::startGame()
 {
+    gameInProgress = true;
+    updateStats();
     activeRow = 0;
     focusedLineEdit = 0;
     setActiveRow(activeRow);
@@ -68,10 +87,26 @@ void WordleLogic::startGame()
     solution = getRandomSolution();
 }
 
+void WordleLogic::updateStats()
+{
+    saveFile = fLogic.readCsvFile(saveDataFileString);
+
+    if (saveFile.size() >= 1) {
+        SaveFileRow lastSaveFileRow = saveFile.last();
+        QString gameStats = QString("Games:  %1\n"
+                                    "Wins:   %2\n"
+                                    "Streak: %3")
+                                .arg(lastSaveFileRow.games)
+                                .arg(lastSaveFileRow.wins)
+                                .arg(lastSaveFileRow.streak);
+        statsLabel->setText(gameStats);
+    }
+}
+
 QString WordleLogic::getRandomSolution()
 {
     int randomIndex = QRandomGenerator::global()->bounded(0, validSolutions.size() - 1);
-    auto checkWords = [this, &randomIndex]() -> bool {
+    auto checkDuplicateWords = [this, &randomIndex]() -> bool {
         for (const auto &row : saveFile) {
             if (row.word == validSolutions[randomIndex]) {
                 return true;
@@ -80,7 +115,7 @@ QString WordleLogic::getRandomSolution()
         return false;
     };
 
-    while (checkWords()) {
+    while (checkDuplicateWords()) {
         randomIndex = QRandomGenerator::global()->bounded(0, validSolutions.size() - 1);
     }
 
@@ -169,8 +204,8 @@ void WordleLogic::handleSubmit()
             SaveFileRow lastRow = saveFile.last();
             SaveFileRow newRow{solution, lastRow.games + 1, lastRow.wins + 1, lastRow.streak + 1};
             fLogic.writeCsvFile(saveDataFileString, newRow);
-
-            // TODO: End the game ?
+            updateStats();
+            gameInProgress = false;
         } else {
             for (int i = tempSolution.size() - 1; i >= 0; --i) {
                 if (word.at(i) == tempSolution.at(i)) {
@@ -192,8 +227,9 @@ void WordleLogic::handleSubmit()
                 SaveFileRow newRow{solution, lastRow.games + 1, lastRow.wins, 0};
                 fLogic.writeCsvFile(saveDataFileString, newRow);
                 setActiveRow(-1);
-
-                // TODO: End the game?
+                updateStats();
+                endLabel->setText(QString("The word was %1").arg(solution));
+                gameInProgress = false;
             }
         }
     } else {
@@ -205,9 +241,28 @@ void WordleLogic::handleSubmit()
 
 void WordleLogic::handleRestart()
 {
+    if (gameInProgress) {
+        SaveFileRow lastRow = saveFile.last();
+        SaveFileRow newRow{solution, lastRow.games + 1, lastRow.wins, 0};
+        fLogic.writeCsvFile(saveDataFileString, newRow);
+    }
     for (auto te : allLineEdits) {
         te->startResetAnimation();
     }
-    saveFile = fLogic.readCsvFile(saveDataFileString);
+    endLabel->setText("");
+    warningLabel->hide();
+    confirmDelete = false;
     startGame();
+}
+
+void WordleLogic::handleDeleteSaveFile()
+{
+    if (!confirmDelete) {
+        warningLabel->show();
+        confirmDelete = true;
+    } else {
+        handleRestart();
+        fLogic.deleteCsvFile(saveDataFileString);
+        updateStats();
+    }
 }
