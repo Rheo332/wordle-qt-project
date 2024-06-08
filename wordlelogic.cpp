@@ -5,6 +5,14 @@
 #define saveDataFileString "./savedata.csv"
 #define getVariableName(Variable) (void(Variable), #Variable)
 
+WordleLogic::~WordleLogic()
+{
+    delete statsLabel;
+    delete infoLabel;
+    delete endLabel;
+    delete warningLabel;
+}
+
 void WordleLogic::initialSetup(QList<QObject *> children)
 {
     try {

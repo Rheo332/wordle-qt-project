@@ -14,8 +14,10 @@
 class WordleLogic
 {
 public:
+    ~WordleLogic();
     QList<CustomLineEdit *> allLineEdits;
     QList<CustomLineEdit *> activeLineEdits;
+
     QLabel *statsLabel;
     QLabel *infoLabel;
     QLabel *endLabel;
@@ -32,7 +34,6 @@ private:
     QList<QString> validSolutions;
     QList<QString> validWords;
     QList<SaveFileRow> saveFile;
-    QLabel *label;
     FileLogic fLogic;
     QString solution;
     int activeRow;

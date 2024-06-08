@@ -13,6 +13,7 @@ class CustomLineEdit : public QLineEdit
 public:
     CustomLineEdit(QWidget *parent = 0);
     ~CustomLineEdit();
+
     void setupAnimation();
     void startKeyPressAnimation();
     void startResetAnimation();
@@ -22,12 +23,13 @@ protected:
     void keyPressEvent(QKeyEvent *event) override;
 
 private:
-    void setupKeyPressAnimation();
-    void setupResetAnimation();
-    void setupWrongWordAnimation();
     QSequentialAnimationGroup *keyPressAnimationGroup = new QSequentialAnimationGroup();
     QSequentialAnimationGroup *resetAnimationGroup = new QSequentialAnimationGroup();
     QSequentialAnimationGroup *wrongWordAnimationGroup = new QSequentialAnimationGroup();
+
+    void setupKeyPressAnimation();
+    void setupResetAnimation();
+    void setupWrongWordAnimation();
 
 signals:
     void keyPressSignal(QKeyEvent *event);
