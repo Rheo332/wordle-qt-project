@@ -37,6 +37,7 @@ Thumbs.db
 *AppDataLocalTemp*
 .qtc_clangd
 qmake_qmake_immediate*
+.qmake.stash
 
 # qtcreator generated files
 *.pro.user*
@@ -95,6 +96,7 @@ moc_*.h
 *.qmlc
 *.jsc
 *build-*
+build/*
 
 # Qt unit tests
 target_wrapper.*

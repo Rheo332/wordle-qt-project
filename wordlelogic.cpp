@@ -97,7 +97,13 @@ void WordleLogic::startGame()
 
 void WordleLogic::updateStats()
 {
-    saveFile = fLogic.readCsvFile(saveDataFileString);
+    try {
+        saveFile = fLogic.readCsvFile(saveDataFileString);
+    } catch (const char *msg) {
+        qDebug() << msg;
+    } catch (QString msg) {
+        qDebug() << msg;
+    }
 
     if (saveFile.size() >= 1) {
         SaveFileRow lastSaveFileRow = saveFile.last();
