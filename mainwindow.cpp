@@ -12,13 +12,12 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     wl.initialSetup(ui->centralwidget->children());
-
     for (auto lineEdit : wl.allLineEdits) {
         connect(lineEdit, &CustomLineEdit::keyPressSignal, this, &MainWindow::onKeyPress);
         lineEdit->setupAnimation();
     }
-    QShortcut *shortcut = new QShortcut(QKeySequence("Ctrl+R"), this);
-    connect(shortcut, &QShortcut::activated, this, &MainWindow::onRestartClicked);
+    restartShortcut = new QShortcut(QKeySequence("Ctrl+R"), this);
+    connect(restartShortcut, &QShortcut::activated, this, &MainWindow::onRestartClicked);
     connect(ui->restartButton, &QPushButton::clicked, this, &MainWindow::onRestartClicked);
     connect(ui->deleteStatsButton, &QPushButton::clicked, this, &MainWindow::onDeleteClicked);
 }
@@ -26,6 +25,7 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete restartShortcut;
 }
 
 void MainWindow::onKeyPress(QKeyEvent *event)

@@ -1,5 +1,7 @@
 #include "wordlelogic.h"
 
+#include <QMainWindow>
+
 #define validSolutionsFileString ":/valid-solutions.txt"
 #define validWordsFileString ":/valid-words.txt"
 #define saveDataFileString "./savedata.csv"
@@ -19,10 +21,8 @@ void WordleLogic::initialSetup(QList<QObject *> children)
         validSolutions = fLogic.readTextFile(validSolutionsFileString);
         validWords = fLogic.readTextFile(validWordsFileString);
         saveFile = fLogic.readCsvFile(saveDataFileString);
-    } catch (const char *msg) {
-        qDebug() << msg;
-    } catch (QString msg) {
-        qDebug() << msg;
+    } catch (const std::runtime_error &e) {
+        qDebug() << e.what();
     }
 
     for (auto *child : children) {
@@ -45,15 +45,17 @@ void WordleLogic::initialSetup(QList<QObject *> children)
     warningLabel->setWordWrap(true);
     warningLabel->setText("Warning: This will delete your save file! Continue?");
     warningLabel->hide();
+
     infoLabel->setWordWrap(true);
-    infoLabel->setText("Ctrl + R to restart the game");
+    infoLabel->setText(
+        "Use Keyboard to type words and arrow keys to navigate\n\nCtrl + R to restart the game");
     startGame();
 }
 
 void WordleLogic::setActiveRow(int row)
 {
     if (row > 5) {
-        throw "Trying to set active row > 5";
+        throw std::logic_error(QString("Trying to set active row to %1").arg(row).toStdString());
     }
 
     if (row < 0) {
@@ -99,17 +101,15 @@ void WordleLogic::updateStats()
 {
     try {
         saveFile = fLogic.readCsvFile(saveDataFileString);
-    } catch (const char *msg) {
-        qDebug() << msg;
-    } catch (QString msg) {
-        qDebug() << msg;
+    } catch (const std::runtime_error &e) {
+        qDebug() << e.what();
     }
 
     if (saveFile.size() >= 1) {
         SaveFileRow lastSaveFileRow = saveFile.last();
-        QString gameStats = QString("Games:  %1\n"
-                                    "Wins:   %2\n"
-                                    "Streak: %3")
+        QString gameStats = QString("Games:\t%1\n"
+                                    "Wins:\t%2\n"
+                                    "Streak:\t%3")
                                 .arg(lastSaveFileRow.games)
                                 .arg(lastSaveFileRow.wins)
                                 .arg(lastSaveFileRow.streak);
@@ -141,8 +141,8 @@ void WordleLogic::nextActiveRow()
 {
     try {
         setActiveRow(activeRow + 1);
-    } catch (const char *msg) {
-        qDebug() << msg;
+    } catch (const std::logic_error &e) {
+        qDebug() << e.what();
     }
 }
 
@@ -217,7 +217,12 @@ void WordleLogic::handleSubmit()
             }
             SaveFileRow lastRow = saveFile.last();
             SaveFileRow newRow{solution, lastRow.games + 1, lastRow.wins + 1, lastRow.streak + 1};
-            fLogic.writeCsvFile(saveDataFileString, newRow);
+            try {
+                fLogic.writeCsvFile(saveDataFileString, newRow);
+            } catch (const std::runtime_error &e) {
+                qDebug() << e.what();
+            }
+
             updateStats();
             gameInProgress = false;
         } else {
@@ -239,7 +244,11 @@ void WordleLogic::handleSubmit()
             } else {
                 SaveFileRow lastRow = saveFile.last();
                 SaveFileRow newRow{solution, lastRow.games + 1, lastRow.wins, 0};
-                fLogic.writeCsvFile(saveDataFileString, newRow);
+                try {
+                    fLogic.writeCsvFile(saveDataFileString, newRow);
+                } catch (const std::runtime_error &e) {
+                    qDebug() << e.what();
+                }
                 setActiveRow(-1);
                 updateStats();
                 endLabel->setText(QString("The word was %1").arg(solution));
@@ -258,7 +267,11 @@ void WordleLogic::handleRestart()
     if (gameInProgress) {
         SaveFileRow lastRow = saveFile.last();
         SaveFileRow newRow{solution, lastRow.games + 1, lastRow.wins, 0};
-        fLogic.writeCsvFile(saveDataFileString, newRow);
+        try {
+            fLogic.writeCsvFile(saveDataFileString, newRow);
+        } catch (const std::runtime_error &e) {
+            qDebug() << e.what();
+        }
     }
     for (auto te : allLineEdits) {
         te->startResetAnimation();

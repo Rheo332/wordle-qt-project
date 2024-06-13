@@ -6,7 +6,6 @@
 #include <QLabel>
 #include <QList>
 #include <QRandomGenerator>
-#include <QTextStream>
 
 #include "customlineedit.h"
 #include "filelogic.h"

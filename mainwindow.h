@@ -27,5 +27,6 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    QShortcut *restartShortcut;
 };
 #endif // MAINWINDOW_H
